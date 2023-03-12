@@ -37,39 +37,51 @@ begin
     process(i_clk, i_rst)
     begin
     if i_rst = '1' then         --segnale di RESET --> inizializzo i segnali
-        o_z0 <= "00000000";     
-        o_z1 <= "00000000";     --inizializzo uscite a 0
-        o_z2 <= "00000000";
-        o_z3 <= "00000000";
+        
+        o_z0 <= (others => '0');     
+        o_z1 <= (others => '0');     --inizializzo uscite a 0
+        o_z2 <= (others => '0');
+        o_z3 <= (others => '0');
 
         o_mem_we <= '0';
         o_mem_en <= '0';
 
         state <= s0;
-        temp_addr = (others <= '0');
+        temp_addr <= (others => '0');
     
     elsif i_clk'event and i_clk = '1' then
         case state is
             when s1 =>
+
                 out_port(1) <= i_w;
                 state <= s2;
+                
             when s2 =>
+
                 out_port(0) <= i_w;
                 state <= s3;
+
             when s3 =>
+
                 if i_start = '1' then
-                    temp_addres <= temp_addr(14 downto 0) & i_w;
+                    temp_addr <= temp_addr(14 downto 0) & i_w;
                 elsif i_start = '0' then
                     state <= s4;
+                end if;
             when s4 =>
+
                 o_mem_en <= '1';
                 o_mem_addr <= temp_addr;
                 state <= s5;
+
             when s5 =>
+
                 out_data <= i_mem_data;
                 o_mem_en <= '0';
-                state <= s6
+                state <= s6;
+
             when s6 =>
+
                 case out_port is
                     when "00" =>
                         o_z0 <= out_data;
@@ -80,21 +92,30 @@ begin
                     when "11" =>
                         o_z3 <= out_data;
                 end case;
+
                 state <= s7;
+
             when s7 =>
+
                 o_done <= '1';
                 state <= s8;
+
             when s8 =>
+
                 o_done <= '0';
                 state <= s9;
+
             when s9 =>
+
+                state <= s1;
+
+            when others =>
+
+                state <=s1;
+
+            end case;
+          end if;
+      end process;
                     
-            
-                
 
-
-
-
-
-    
 end Behavioral;
