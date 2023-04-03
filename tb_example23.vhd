@@ -30,6 +30,9 @@ ARCHITECTURE projecttb OF project_tb IS
     -- Channel 2 -> MEM[1] -> 162
     -- Channel 1 -> MEM[2] -> 75
 
+    --template      addr    mem addr            20 cicli
+    --              "00" & "0000000000000000" & "00000000000000000000"
+
     TYPE ram_type IS ARRAY (65535 DOWNTO 0) OF STD_LOGIC_VECTOR(7 DOWNTO 0);
     SIGNAL RAM : ram_type := (  0 => STD_LOGIC_VECTOR(to_unsigned(2, 8)),
                                 1 => STD_LOGIC_VECTOR(to_unsigned(162, 8)),
@@ -156,7 +159,7 @@ BEGIN
         ASSERT tb_z1 = "00000000"  REPORT "TEST FALLITO (Z1 != 0) found " & integer'image(to_integer(unsigned(tb_z1))) severity failure;
         ASSERT tb_z2 = "00000000"  REPORT "TEST FALLITO (Z2 != 0) found " & integer'image(to_integer(unsigned(tb_z1))) severity failure;
         ASSERT tb_z3 = "00000000"  REPORT "TEST FALLITO (Z3 != 0) found " & integer'image(to_integer(unsigned(tb_z1))) severity failure;
-        
+
         
         ASSERT false REPORT "Simulation Ended! TEST PASSATO (EXAMPLE)" SEVERITY failure;
     END PROCESS testRoutine;
