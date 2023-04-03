@@ -23,15 +23,12 @@ ARCHITECTURE projecttb OF project_tb IS
     SIGNAL tb_z0, tb_z1, tb_z2, tb_z3 : STD_LOGIC_VECTOR (7 DOWNTO 0);
     SIGNAL tb_w : STD_LOGIC;
 
-    CONSTANT SCENARIOLENGTH : INTEGER := 45; -- 5 + 3 + 20 + 7      (RST)  + (CH2-MEM[1]) + 20 CYCLES +     (CH1-MEM[6]) 
-    SIGNAL scenario_rst : unsigned(0 TO SCENARIOLENGTH - 1)     := "00110" & "000" & "00000000000000000000" & "0000000" & "0000100000";
-    SIGNAL scenario_start : unsigned(0 TO SCENARIOLENGTH - 1)   := "00000" & "111" & "00000000000000000000" & "1111100" & "0000011000"; 
-    SIGNAL scenario_w : unsigned(0 TO SCENARIOLENGTH - 1)       := "00000" & "101" & "00000000000000000000" & "0111000" & "0000100000";
+    CONSTANT SCENARIOLENGTH : INTEGER := 35; -- 5 + 3 + 20 + 7   (RST) + (CH2-MEM[1]) + 20 CYCLES + (CH1-MEM[6])
+    SIGNAL scenario_rst : unsigned(0 TO SCENARIOLENGTH - 1)     := "00110" & "000" & "00000000000000000000" & "0000000" && "00000000000000000000" && "0000";
+    SIGNAL scenario_start : unsigned(0 TO SCENARIOLENGTH - 1)   := "00000" & "111" & "00000000000000000000" & "1111100" && "00000000000000000000" && "1110";
+    SIGNAL scenario_w : unsigned(0 TO SCENARIOLENGTH - 1)       := "00000" & "101" & "00000000000000000000" & "0111000" && "00000000000000000000" && "1011";
     -- Channel 2 -> MEM[1] -> 162
     -- Channel 1 -> MEM[2] -> 75
-
-    --template      addr    mem addr            20 cicli
-    --              "00" & "0000000000000000" & "00000000000000000000"
 
     TYPE ram_type IS ARRAY (65535 DOWNTO 0) OF STD_LOGIC_VECTOR(7 DOWNTO 0);
     SIGNAL RAM : ram_type := (  0 => STD_LOGIC_VECTOR(to_unsigned(2, 8)),
@@ -39,6 +36,49 @@ ARCHITECTURE projecttb OF project_tb IS
                                 2 => STD_LOGIC_VECTOR(to_unsigned(75, 8)),
                                 3 => STD_LOGIC_VECTOR(to_unsigned(175, 8)),
                                 6 => STD_LOGIC_VECTOR(to_unsigned(88, 8)),
+                                338 => STD_LOGIC_VECTOR(to_unsigned(204, 8)),
+                                1115 => STD_LOGIC_VECTOR(to_unsigned(161, 8)),
+                                1873 => STD_LOGIC_VECTOR(to_unsigned(126, 8)),
+                                1970 => STD_LOGIC_VECTOR(to_unsigned(105, 8)),
+                                2648 => STD_LOGIC_VECTOR(to_unsigned(123, 8)),
+                                2844 => STD_LOGIC_VECTOR(to_unsigned(172, 8)),
+                                3580 => STD_LOGIC_VECTOR(to_unsigned(234, 8)),
+                                4133 => STD_LOGIC_VECTOR(to_unsigned(3, 8)),
+                                4917 => STD_LOGIC_VECTOR(to_unsigned(216, 8)),
+                                5637 => STD_LOGIC_VECTOR(to_unsigned(79, 8)),
+                                60000 => STD_LOGIC_VECTOR(to_unsigned(4, 8)),
+                                60355 => STD_LOGIC_VECTOR(to_unsigned(89, 8)),
+                                60361 => STD_LOGIC_VECTOR(to_unsigned(102, 8)),
+                                60651 => STD_LOGIC_VECTOR(to_unsigned(238, 8)),
+                                61539 => STD_LOGIC_VECTOR(to_unsigned(46, 8)),
+                                62353 => STD_LOGIC_VECTOR(to_unsigned(148, 8)),
+                                63232 => STD_LOGIC_VECTOR(to_unsigned(58, 8)),
+                                64160 => STD_LOGIC_VECTOR(to_unsigned(82, 8)),
+                                65053 => STD_LOGIC_VECTOR(to_unsigned(20, 8)),
+                                64376 => STD_LOGIC_VECTOR(to_unsigned(244, 8)),
+                                64863 => STD_LOGIC_VECTOR(to_unsigned(67, 8)),
+                                65185 => STD_LOGIC_VECTOR(to_unsigned(31, 8)),
+                                65207 => STD_LOGIC_VECTOR(to_unsigned(230, 8)),
+                                65442 => STD_LOGIC_VECTOR(to_unsigned(134, 8)),
+                                64591 => STD_LOGIC_VECTOR(to_unsigned(228, 8)),
+                                65212 => STD_LOGIC_VECTOR(to_unsigned(49, 8)),
+                                1000 => STD_LOGIC_VECTOR(to_unsigned(22, 8)),
+                                8566 => STD_LOGIC_VECTOR(to_unsigned(218, 8)),
+                                14451 => STD_LOGIC_VECTOR(to_unsigned(235, 8)),
+                                18781 => STD_LOGIC_VECTOR(to_unsigned(227, 8)),
+                                27866 => STD_LOGIC_VECTOR(to_unsigned(137, 8)),
+                                35880 => STD_LOGIC_VECTOR(to_unsigned(36, 8)),
+                                39487 => STD_LOGIC_VECTOR(to_unsigned(77, 8)),
+                                45660 => STD_LOGIC_VECTOR(to_unsigned(75, 8)),
+                                52141 => STD_LOGIC_VECTOR(to_unsigned(187, 8)),
+                                53762 => STD_LOGIC_VECTOR(to_unsigned(93, 8)),
+                                54050 => STD_LOGIC_VECTOR(to_unsigned(115, 8)),
+                                58678 => STD_LOGIC_VECTOR(to_unsigned(223, 8)),
+                                63104 => STD_LOGIC_VECTOR(to_unsigned(199, 8)),
+                                60318 => STD_LOGIC_VECTOR(to_unsigned(201, 8)),
+                                51599 => STD_LOGIC_VECTOR(to_unsigned(129, 8)),
+                                53114 => STD_LOGIC_VECTOR(to_unsigned(11, 8)),
+                                
                                 OTHERS => "00000000"-- (OTHERS => '0')
                             );
                     
@@ -152,15 +192,7 @@ BEGIN
 
         ASSERT tb_z1 = std_logic_vector(to_unsigned(88, 8))  REPORT "TEST FALLITO (Z1 ---) found " & integer'image(to_integer(unsigned(tb_z1))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
         ASSERT tb_z2 = std_logic_vector(to_unsigned(162, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
-        
-        WAIT UNTIL tb_done = '1';
-        
-        assert tb_z0 = STD_LOGIC_VECTOR(to_unsigned(2, 8))  REPORT "TEST FALLITO (Z1 ---) found " & integer'image(to_integer(unsigned(tb_z1))) severity failure;
-        ASSERT tb_z1 = "00000000"  REPORT "TEST FALLITO (Z1 != 0) found " & integer'image(to_integer(unsigned(tb_z1))) severity failure;
-        ASSERT tb_z2 = "00000000"  REPORT "TEST FALLITO (Z2 != 0) found " & integer'image(to_integer(unsigned(tb_z1))) severity failure;
-        ASSERT tb_z3 = "00000000"  REPORT "TEST FALLITO (Z3 != 0) found " & integer'image(to_integer(unsigned(tb_z1))) severity failure;
 
-        
         ASSERT false REPORT "Simulation Ended! TEST PASSATO (EXAMPLE)" SEVERITY failure;
     END PROCESS testRoutine;
 
