@@ -32,6 +32,11 @@ architecture Behavioral of project_reti_logiche is
     signal out_port: std_logic_vector(1 downto 0);
     signal temp_addr: std_logic_vector(15 downto 0);
     signal out_data: std_logic_vector(7 downto 0);
+
+    signal temp_z0: std_logic_vector(7 downto 0);
+    signal temp_z1: std_logic_vector(7 downto 0);
+    signal temp_z2: std_logic_vector(7 downto 0);
+    signal temp_z3: std_logic_vector(7 downto 0);
   
 begin
     process(i_clk, i_rst)
@@ -43,23 +48,35 @@ begin
         o_z2 <= (others => '0');
         o_z3 <= (others => '0');
 
+        o_done <= '0';
+        
+        temp_z0 <= (others => '0');
+        temp_z0 <= (others => '0');  --inizializzo memoria uscite a 0
+        temp_z0 <= (others => '0');
+        temp_z0 <= (others => '0');
+
         o_mem_we <= '0';
         o_mem_en <= '0';
 
-        state <= s0;
+        state <= s1;
+
         temp_addr <= (others => '0');
     
     elsif i_clk'event and i_clk = '1' then
         case state is
             when s1 =>
 
-                out_port(1) <= i_w;
-                state <= s2;
+                if i_start = '1' then
+                    out_port(1) <= i_w;
+                    state <= s2;
+                end if;
                 
             when s2 =>
 
-                out_port(0) <= i_w;
-                state <= s3;
+                if i_start = '1' then 
+                    out_port(0) <= i_w;
+                    state <= s3;
+                end if;
 
             when s3 =>
 
@@ -68,6 +85,7 @@ begin
                 elsif i_start = '0' then
                     state <= s4;
                 end if;
+
             when s4 =>
 
                 o_mem_en <= '1';
@@ -84,13 +102,14 @@ begin
 
                 case out_port is
                     when "00" =>
-                        o_z0 <= out_data;
+                        temp_z0 <= out_data;
                     when "01" =>
-                        o_z1 <= out_data;
+                        temp_z1 <= out_data;
                     when "10" =>
-                        o_z2 <= out_data;
-                    when "11" =>
-                        o_z3 <= out_data;
+                        temp_z2 <= out_data;
+                    when others  =>
+                        temp_z3 <= out_data;
+                     
                 end case;
 
                 state <= s7;
@@ -98,15 +117,21 @@ begin
             when s7 =>
 
                 o_done <= '1';
+                o_z0  <= temp_z0;
+                o_z1  <= temp_z1;
+                o_z2  <= temp_z2;
+                o_z3  <= temp_z3;
+
                 state <= s8;
 
             when s8 =>
+                
+                o_z0  <= (others => '0');
+                o_z1  <= (others => '0');
+                o_z2  <= (others => '0');
+                o_z3  <= (others => '0');
 
                 o_done <= '0';
-                state <= s9;
-
-            when s9 =>
-
                 state <= s1;
 
             when others =>
