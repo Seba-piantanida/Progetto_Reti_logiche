@@ -23,77 +23,107 @@ ARCHITECTURE projecttb OF project_tb IS
     SIGNAL tb_z0, tb_z1, tb_z2, tb_z3 : STD_LOGIC_VECTOR (7 DOWNTO 0);
     SIGNAL tb_w : STD_LOGIC;
 
-    CONSTANT SCENARIOLENGTH : INTEGER := 442; -- 5 + 3 + 20 + 7   (RST) + (CH2-MEM[1]) + 20 CYCLES + (CH1-MEM[6])
+    CONSTANT SCENARIOLENGTH : INTEGER := 690; -- 5 + 3 + 20 + 7   (RST) + (CH2-MEM[1]) + 20 CYCLES + (CH1-MEM[6])
     SIGNAL scenario_rst : unsigned(0 TO SCENARIOLENGTH - 1)     :=  "00110" & "000" & "00000000000000000000" & "0000000" & "00000000000000000000" & "0000" & "00000000000000000000"
-    & "110000"
+    & "110000000000000000000"
     & "00000000000000000000"
-    & "00000000000"
+    & "000000000000000000"
     & "00000000000000000000"
-    & "0000000000000"
+    & "000000000000000000"
     & "00000000000000000000"
-    & "0000000000000"
+    & "000000000000000000"
     & "00000000000000000000"
-    & "0000000000000"
+    & "000000000000000000"
     & "00000000000000000000"
-    & "00000000000000"
+    & "000000000000000000"
     & "00000000000000000000"
-    & "00000000000000"
+    & "000000000000000000"
     & "00000000000000000000"
-    & "00000000000000"
+    & "000000000000000000"
     & "00000000000000000000"
-    & "000000000000000"
+    & "000000000000000000"
     & "00000000000000000000"
-    & "000000000000000"
+    & "000000000000000000"
     & "00000000000000000000"
-    & "000000000000000"
+    & "000000000000000000"
+    & "00000000000000000000"
+    & "000000000000000000"
+    & "00000000000000000000"
+    & "000000000000000000"
+    & "00000000000000000000"
+    & "000000000000000000"
+    & "00000000000000000000"
+    & "000000000000000000"
+    & "00000000000000000000"
+    & "000000000000000000"
     & "00000000000000000000";
 
     SIGNAL scenario_start : unsigned(0 TO SCENARIOLENGTH - 1)   := "00000" & "111" & "00000000000000000000" & "1111100" & "00000000000000000000" & "1110" & "00000000000000000000"
-    & "000111"
+    & "000111111111111111111"
     & "00000000000000000000"
-    & "11111111111"
+    & "111111111111111111"
     & "00000000000000000000"
-    & "1111111111111"
+    & "111111111111111111"
     & "00000000000000000000"
-    & "1111111111111"
+    & "111111111111111111"
     & "00000000000000000000"
-    & "1111111111111"
+    & "111111111111111111"
     & "00000000000000000000"
-    & "11111111111111"
+    & "111111111111111111"
     & "00000000000000000000"
-    & "11111111111111"
+    & "111111111111111111"
     & "00000000000000000000"
-    & "11111111111111"
+    & "111111111111111111"
     & "00000000000000000000"
-    & "111111111111111"
+    & "111111111111111111"
     & "00000000000000000000"
-    & "111111111111111"
+    & "111111111111111111"
     & "00000000000000000000"
-    & "111111111111111"
+    & "111111111111111111"
+    & "00000000000000000000"
+    & "111111111111111111"
+    & "00000000000000000000"
+    & "111111111111111111"
+    & "00000000000000000000"
+    & "111111111111111111"
+    & "00000000000000000000"
+    & "111111111111111111"
+    & "00000000000000000000"
+    & "111111111111111111"
     & "00000000000000000000";
     
     SIGNAL scenario_w : unsigned(0 TO SCENARIOLENGTH - 1)       := "00000" & "101" & "00000000000000000000" & "0111000" & "00000000000000000000" & "1011" & "00000000000000000000"
-    & "000101"
+    & "000111110101001100000"
     & "00000000000000000000"
-    & "01101010010"
+    & "111110101111000011"
     & "00000000000000000000"
-    & "1010001011011"
+    & "111110101111001001"
     & "00000000000000000000"
-    & "0011101010001"
+    & "101110110011101011"
     & "00000000000000000000"
-    & "0011110110010"
+    & "101111000001100011"
     & "00000000000000000000"
-    & "10101001011000"
+    & "111111001110010001"
     & "00000000000000000000"
-    & "00101100011100"
+    & "111111011100000000"
     & "00000000000000000000"
-    & "11110111111100"
+    & "011111101010100000"
     & "00000000000000000000"
-    & "001000000100101"
+    & "111111111000011101"
     & "00000000000000000000"
-    & "011001100110101"
+    & "101111101101111000"
     & "00000000000000000000"
-    & "101011000000101"
+    & "011111110101011111"
+    & "00000000000000000000"
+    & "101111111010100001"--
+    & "00000000000000000000"
+    & "111111111010110111"
+    & "00000000000000000000"
+    & "111111111110100010"
+    & "00000000000000000000"
+    & "111111110001001111"
+    & "00000000000000000000"
+    & "101111111010111100"
     & "00000000000000000000";
     --360bit
 
@@ -270,82 +300,122 @@ BEGIN
         ASSERT tb_z3 = "00000000" REPORT "TEST FALLITO (poststart Z0--Z3 != 0 ) found " & integer'image(to_integer(unsigned(tb_z3))) severity failure; 
         
         
-        --inizio test esempio 1
+        --inizio test esempio 2
         WAIT UNTIL tb_rst = '1';
         wait until tb_done = '1';
         --WAIT UNTIL rising_edge(tb_clk);
-        WAIT FOR CLOCK_PERIOD/2;
+        WAIT FOR CLOCK_PERIOD/2; -- 00 00 00 04
         ASSERT tb_z0 = std_logic_vector(to_unsigned(0, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z0))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
         ASSERT tb_z1 = std_logic_vector(to_unsigned(0, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z1))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
-        ASSERT tb_z2 = std_logic_vector(to_unsigned(2, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
-        ASSERT tb_z3 = std_logic_vector(to_unsigned(0, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z3))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z2 = std_logic_vector(to_unsigned(0, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z3 = std_logic_vector(to_unsigned(4, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z3))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
 
         WAIT UNTIL tb_done = '1';
-        WAIT FOR CLOCK_PERIOD/2;
-        ASSERT tb_z1 = std_logic_vector(to_unsigned(204, 8))  REPORT "TEST FALLITO (Z1 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
-        ASSERT tb_z2 = std_logic_vector(to_unsigned(2, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
-
-
-        WAIT UNTIL tb_done = '1';
-        WAIT FOR CLOCK_PERIOD/2;
-        ASSERT tb_z1 = std_logic_vector(to_unsigned(204, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
-        ASSERT tb_z2 = std_logic_vector(to_unsigned(161, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        WAIT FOR CLOCK_PERIOD/2; --00 00 00 59
+        ASSERT tb_z0 = std_logic_vector(to_unsigned(0, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z0))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z1 = std_logic_vector(to_unsigned(0, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z1))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z2 = std_logic_vector(to_unsigned(0, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z3 = std_logic_vector(to_unsigned(89, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z3))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
 
         WAIT UNTIL tb_done = '1';
-        WAIT FOR CLOCK_PERIOD/2;
-        ASSERT tb_z0 = std_logic_vector(to_unsigned(126, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
-        ASSERT tb_z1 = std_logic_vector(to_unsigned(204, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
-        ASSERT tb_z2 = std_logic_vector(to_unsigned(161, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
-        ASSERT tb_z3 = std_logic_vector(to_unsigned(0, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        WAIT FOR CLOCK_PERIOD/2; -- 00 00 00 66
+        ASSERT tb_z0 = std_logic_vector(to_unsigned(0, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z0))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z1 = std_logic_vector(to_unsigned(0, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z1))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z2 = std_logic_vector(to_unsigned(0, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z3 = std_logic_vector(to_unsigned(102, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z3))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
 
         WAIT UNTIL tb_done = '1';
-        WAIT FOR CLOCK_PERIOD/2; --69 cc a1 00
-        ASSERT tb_z0 = std_logic_vector(to_unsigned(105, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
-        ASSERT tb_z1 = std_logic_vector(to_unsigned(204, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
-        ASSERT tb_z2 = std_logic_vector(to_unsigned(161, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
-        ASSERT tb_z3 = std_logic_vector(to_unsigned(0, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        WAIT FOR CLOCK_PERIOD/2; --00 00 ee 66
+        ASSERT tb_z0 = std_logic_vector(to_unsigned(0, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z1 = std_logic_vector(to_unsigned(0, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z2 = std_logic_vector(to_unsigned(238, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z3 = std_logic_vector(to_unsigned(102, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
 
         WAIT UNTIL tb_done = '1';
-        WAIT FOR CLOCK_PERIOD/2;-- 69 cc 7b 00
-        ASSERT tb_z0 = std_logic_vector(to_unsigned(105, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
-        ASSERT tb_z1 = std_logic_vector(to_unsigned(204, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
-        ASSERT tb_z2 = std_logic_vector(to_unsigned(123, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
-        ASSERT tb_z3 = std_logic_vector(to_unsigned(0, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        WAIT FOR CLOCK_PERIOD/2; --00 00 2e 66
+        ASSERT tb_z0 = std_logic_vector(to_unsigned(0, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z1 = std_logic_vector(to_unsigned(0, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z2 = std_logic_vector(to_unsigned(46, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z3 = std_logic_vector(to_unsigned(102, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
 
         WAIT UNTIL tb_done = '1';
-        WAIT FOR CLOCK_PERIOD/2; --ac cc 7b 00
-        ASSERT tb_z0 = std_logic_vector(to_unsigned(172, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
-        ASSERT tb_z1 = std_logic_vector(to_unsigned(204, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
-        ASSERT tb_z2 = std_logic_vector(to_unsigned(123, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
-        ASSERT tb_z3 = std_logic_vector(to_unsigned(0, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        WAIT FOR CLOCK_PERIOD/2;-- 00 00 2e 94
+        ASSERT tb_z0 = std_logic_vector(to_unsigned(0, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z1 = std_logic_vector(to_unsigned(0, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z2 = std_logic_vector(to_unsigned(46, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z3 = std_logic_vector(to_unsigned(148, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
 
         WAIT UNTIL tb_done = '1';
-        WAIT FOR CLOCK_PERIOD/2;--ac cc 7b ea
-        ASSERT tb_z0 = std_logic_vector(to_unsigned(172, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
-        ASSERT tb_z1 = std_logic_vector(to_unsigned(204, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
-        ASSERT tb_z2 = std_logic_vector(to_unsigned(123, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
-        ASSERT tb_z3 = std_logic_vector(to_unsigned(234, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        WAIT FOR CLOCK_PERIOD/2; -- 00 00 2e 3a
+        ASSERT tb_z0 = std_logic_vector(to_unsigned(0, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z1 = std_logic_vector(to_unsigned(0, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z2 = std_logic_vector(to_unsigned(46, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z3 = std_logic_vector(to_unsigned(58, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
 
         WAIT UNTIL tb_done = '1';
-        WAIT FOR CLOCK_PERIOD/2;--03 cc 7b ea
-        ASSERT tb_z0 = std_logic_vector(to_unsigned(3, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
-        ASSERT tb_z1 = std_logic_vector(to_unsigned(204, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
-        ASSERT tb_z2 = std_logic_vector(to_unsigned(123, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
-        ASSERT tb_z3 = std_logic_vector(to_unsigned(234, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        WAIT FOR CLOCK_PERIOD/2;--00 52 2e 3a
+        ASSERT tb_z0 = std_logic_vector(to_unsigned(0, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z1 = std_logic_vector(to_unsigned(82, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z2 = std_logic_vector(to_unsigned(46, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z3 = std_logic_vector(to_unsigned(58, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
 
         WAIT UNTIL tb_done = '1';
-        WAIT FOR CLOCK_PERIOD/2;--03 d8 7b ea
-        ASSERT tb_z0 = std_logic_vector(to_unsigned(3, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
-        ASSERT tb_z1 = std_logic_vector(to_unsigned(216, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
-        ASSERT tb_z2 = std_logic_vector(to_unsigned(123, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
-        ASSERT tb_z3 = std_logic_vector(to_unsigned(234, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        WAIT FOR CLOCK_PERIOD/2;--00 52 2e 14
+        ASSERT tb_z0 = std_logic_vector(to_unsigned(0, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z1 = std_logic_vector(to_unsigned(82, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z2 = std_logic_vector(to_unsigned(46, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z3 = std_logic_vector(to_unsigned(20, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
 
         WAIT UNTIL tb_done = '1';
-        WAIT FOR CLOCK_PERIOD/2;--03 d8 4f ea
-        ASSERT tb_z0 = std_logic_vector(to_unsigned(3, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
-        ASSERT tb_z1 = std_logic_vector(to_unsigned(216, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
-        ASSERT tb_z2 = std_logic_vector(to_unsigned(79, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
-        ASSERT tb_z3 = std_logic_vector(to_unsigned(234, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        WAIT FOR CLOCK_PERIOD/2;--00 52 f4 14
+        ASSERT tb_z0 = std_logic_vector(to_unsigned(0, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z1 = std_logic_vector(to_unsigned(82, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z2 = std_logic_vector(to_unsigned(244, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z3 = std_logic_vector(to_unsigned(20, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+
+        WAIT UNTIL tb_done = '1';
+        WAIT FOR CLOCK_PERIOD/2;--00 43 f4 14
+        ASSERT tb_z0 = std_logic_vector(to_unsigned(0, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z1 = std_logic_vector(to_unsigned(67, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z2 = std_logic_vector(to_unsigned(244, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z3 = std_logic_vector(to_unsigned(20, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        
+        WAIT UNTIL tb_done = '1';
+        WAIT FOR CLOCK_PERIOD/2;--00 43 1f 14
+        ASSERT tb_z0 = std_logic_vector(to_unsigned(0, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z1 = std_logic_vector(to_unsigned(67, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z2 = std_logic_vector(to_unsigned(31, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z3 = std_logic_vector(to_unsigned(20, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        
+        WAIT UNTIL tb_done = '1';
+        WAIT FOR CLOCK_PERIOD/2;--00 43 1f e6
+        ASSERT tb_z0 = std_logic_vector(to_unsigned(0, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z1 = std_logic_vector(to_unsigned(67, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z2 = std_logic_vector(to_unsigned(31, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z3 = std_logic_vector(to_unsigned(230, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        
+        WAIT UNTIL tb_done = '1';
+        WAIT FOR CLOCK_PERIOD/2;--00 43 1f 86
+        ASSERT tb_z0 = std_logic_vector(to_unsigned(0, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z1 = std_logic_vector(to_unsigned(67, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z2 = std_logic_vector(to_unsigned(31, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z3 = std_logic_vector(to_unsigned(134, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        
+        WAIT UNTIL tb_done = '1';
+        WAIT FOR CLOCK_PERIOD/2;--00 43 1f e4
+        ASSERT tb_z0 = std_logic_vector(to_unsigned(0, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z1 = std_logic_vector(to_unsigned(67, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z2 = std_logic_vector(to_unsigned(31, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z3 = std_logic_vector(to_unsigned(228, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        
+        WAIT UNTIL tb_done = '1';
+        WAIT FOR CLOCK_PERIOD/2;--00 43 31 e4
+        ASSERT tb_z0 = std_logic_vector(to_unsigned(0, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z1 = std_logic_vector(to_unsigned(67, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z2 = std_logic_vector(to_unsigned(49, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        ASSERT tb_z3 = std_logic_vector(to_unsigned(228, 8))  REPORT "TEST FALLITO (Z2 ---) found " & integer'image(to_integer(unsigned(tb_z2))) severity failure; --. Expected  209  found " & integer'image(tb_z0))))  severity failure;
+        
+
         --fine test 1
        
 

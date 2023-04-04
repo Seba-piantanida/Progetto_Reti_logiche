@@ -26,7 +26,7 @@ entity project_reti_logiche is
 end project_reti_logiche;
 
 architecture Behavioral of project_reti_logiche is
-    type state_type is (s0, s1, s2, s3, s4, s5, s6, s7, s8, s9);
+    type state_type is (s0, s1, s2, s3, s4, s5, s6, s7, s8);
     signal state: state_type;
 
     signal out_port: std_logic_vector(1 downto 0);
@@ -136,7 +136,7 @@ begin
 
             when others =>
 
-                state <=s1;
+                state <=s0;
 
             end case;
           end if;
